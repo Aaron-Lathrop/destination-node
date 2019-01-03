@@ -1,0 +1,9 @@
+language: node_js
+node_js: node
+deploy:
+  provider: heroku
+  api_key:
+    secure: buvmrdq7y8lYAMqRUrzInLA2MEyWiQdKygVdfERw7GwweeWdBGcMqoSoazZ3JaC0xaiP/mLGyz8EvAPEqvIlgMgZQ2hOpzg1VefC1jG/WWJ/yn+jX2nek5t4Jo86sqA5j7P7nBQN747O4plWAfGEhW0DAJk8tSkguJsQX/mv8bWrveUa457KwNWjqz6WVJfGtPDShFFtpjFNENccby2Yjt/Lsh63+0gFlLG+AXF72785bkWhmylfCv69we8kBf/tKbJIMzGW7Z0f4ScJOucovkGY8y/AWd9IyTF6wxpzRR9WMWi9HcuUarwlWpRWvA9zARjfpoF1a09UiHbP0AmZg3ETt1KZ31nt/w6SGjSBKMW87KtstT0fNtmlreDaJdtj9sVaP6m4faZdxjji36J1Nr5BOo1byej4ME+dVxYl8Vz85c05yQuGaLPH+e65lHXJ6opvMb6pviN6lhY+J4w/xno9T7jsPCCRpd55I+jW7C3n+6hs9d7DdolDP49dYT+IkzjB85JVUMbJ46uUI33L8+DlDAXI/bB0ZWFaI09AKn9TToqF7wi+OcWf9jP5brahxLfAG6vUXOk3OsAq74P8AbjfyA3M4+NTrmt0USBaUJoMhMJQ6YhIxkUdLul5HJ/HaShX9wFf/xczAfyIsW1uFPyq6oe0WPb1HPnBXKDJdHI=
+  app: interview-prep-capstone
+  on:
+    repo: Aaron-Lathrop/destination-node

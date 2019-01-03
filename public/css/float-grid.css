@@ -1,0 +1,74 @@
+* {
+    box-sizing: border-box;
+}
+
+/* set max width of content and center on screen with room around the edges */
+.row {
+    max-width: 1000px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 0 auto;
+}
+
+/* Clearfix */
+.row::before,
+.row::after {
+    display: table;
+    content: " ";
+}
+
+.row::after {
+    clear: both;
+}
+
+/* Mobile defaults */
+.col-3, .col-4, .col-6, .col-12 {
+    float: left;
+    padding-left: 1.041666666%;
+    padding-right: 1.041666666%;
+    width: 100%;
+}
+
+/* Larger screens like desktop */
+@media only screen and (min-width: 640px) {
+
+    .col-3 {
+        width: 25%;
+    }
+
+    .col-4 {
+        width: 33.333333%;
+    }
+
+    .col-6 {
+        width: 50%;
+    }
+
+    .col-12 {
+        width: 100%;
+    }
+
+    header h1 {
+        font-size: 60px;
+    }
+
+    header h2 {
+        font-size: 40px;
+    }
+
+    .icon {
+        display: none;
+    }
+    
+}
+
+@media only screen and (max-width: 639px){
+
+    #nav-list {
+        display: none;
+    }
+
+    nav li {
+        float: initial;
+    }
+}

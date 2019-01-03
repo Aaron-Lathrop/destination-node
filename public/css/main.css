@@ -1,0 +1,270 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    background-color: rgba(202, 214, 218, 0.568);
+    /* background: url('/public/images/joanna-kosinska-129039-unsplash.jpg') */
+    background: url(https://images.unsplash.com/photo-1472289065668-ce650ac443d2?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=cdff4c62302fd44491d4850202323d11&auto=format&fit=crop&w=750&q=80) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+nav {
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #0c0d0f;
+    opacity: .7;
+    color: white;
+    font-size: 18px;
+    box-shadow: 0 0 8px #0c0d0f;
+}
+
+nav ul {
+    left: 0;
+    display: inline-block;
+    list-style-type: circle;
+    color: white;
+    margin: 0;
+}
+
+nav li {
+    float: left;
+    margin-right: 15px;
+    margin-left: 15px;
+    font-weight: bold;
+    padding: 15px 0 13px 0;
+}
+
+li:hover{
+    cursor: pointer;
+    color: ghostwhite;
+}
+
+header {
+    margin-top: 40px;
+    margin-left: 0 auto;
+    margin-right: 0 auto;
+    width: 100%;
+    padding: 20px;
+    color: #0c0d0f;
+}
+
+header, h2, #mockStart {
+    text-align: center;
+}
+
+h1 {
+    font-size: 35px;
+    text-align:center;
+    margin-bottom: 12px;
+}
+
+main {
+    margin-top: 70px;
+}
+
+p {
+    font-size: 18px;
+}
+
+#signin, #register{
+    text-align:right;
+    right: 15px;
+}
+
+#interview label {
+    margin-bottom: 30px;
+    font-size: 25px;
+    display: block;
+}
+
+form {
+    text-align: center;
+}
+
+form label {
+    display: block;
+    text-align: center;
+}
+
+form fieldset {
+    font-size: 25px;
+    width: 350px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    border: none;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 7px 5px 5px grey;
+}
+form legend {
+    position: relative;
+    top: 25px;
+    margin-bottom: 35px;
+    padding-top: 20px;
+    font-weight: bold;
+}
+
+form input {
+    border: 2px solid ghostwhite;
+    border-radius: 8px;
+    height: 35px;
+    width: 75%;
+    min-width: 250px;
+    margin-bottom: 15px;
+    padding: 15px;
+    font-size: 16px;
+    box-shadow: 7px 5px 5px grey;
+}
+
+#selectInterview div:hover{
+    cursor: pointer;
+    border-color: rgba(248, 248, 255, 0.527);
+    background-color: rgba(248, 248, 255, 0.527);
+}
+
+.limitWidth {
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.container {
+    background-color: rgba(248, 248, 255, .7);
+    border-radius: 5px;
+    padding: 25px;
+}
+
+.response-container {
+    background-color: ghostwhite;
+    border-radius: 10px;
+    color: #0c0d0f;
+    padding: 25px;
+    margin-bottom: 15px;
+}
+
+.interviewContainer {
+    height: auto;
+    margin: auto;
+    margin-bottom: 15px;
+}
+
+.js-show-login-signup{
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+textarea {
+    position: relative;
+    display: block;
+    margin-bottom: 10px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    font-size: 20px;
+    border: 1px solid white;
+    border-radius: 8px;
+}
+
+button {
+    padding: 20px 30px 20px 30px;
+    margin: 15px;
+    display: flex;
+    font-size: 18px;
+    font-weight: 700;
+    background-color: rgba(12, 13, 15, .7);
+    color: ghostwhite;
+    border-radius: 10px;
+    border: 1px solid rgba(12, 13, 15, .7);
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: #0c0d0f;
+    border: 1px solid #0c0d0f;
+}
+
+button:active{
+    background-color: #7d7e81;
+    border: 1px solid #7d7e81;
+}
+
+#userResponse {
+    height: 150px;
+    width: 75%;
+}
+
+#interviewAvatar {
+    clear: both;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 75px;
+    max-width: 75px;
+    border-radius: 50%;
+}
+
+.reviewInterview, .deleteInterview {
+    padding: 15px;
+    font-size: 14px;
+    display: inline;
+}
+
+.interviewQuestion {
+    padding: 20px;
+    border: 1px solid ghostwhite;
+    border-radius: 8px;
+    background-color: ghostwhite;
+    display: block;
+    margin-top: 15px;
+}
+
+.response {
+    padding: 20px;
+    border: 2px solid lightskyblue;
+    border-radius: 8px;
+    background-color: ghostwhite;
+    height: 300px;
+}
+
+#hamburger-icon{
+    list-style-type: none;
+}
+
+.icon {
+    float: left;
+    color: white;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.center-text{
+    text-align: center;
+}
+
+.hide {
+    display: none;
+}
+
+.block {
+    display: block;
+}
+
+.save, .cancel {
+    display: inline;
+}
+
+:focus {
+    border-radius: 8px;
+}

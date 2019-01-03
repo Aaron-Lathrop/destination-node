@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html lang='en'>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="UTf-8">
+        <title>Interview Prep</title>
+        <link rel='stylesheet' href='/css/float-grid.css'>
+        <link rel='stylesheet' href='/css/main.css'>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script> -->
+       
+    </head>
+    <nav role='navigation'>
+        <li id='hamburger-icon'><a href="javascript:void(0);" class="icon" onclick="showNav()">
+                <i class="fa fa-bars"></i>
+        </a></li>
+        <ul id="nav-list">
+            <li id='home'>Home</li>
+            <li id='practice'>Practice</li>
+            <li id='review'>Review</li>
+            <li id='account'>Account</li>
+            <li id='logout'>Log Out</li>
+        </ul>
+    </nav>
+    <header role='banner'>
+        <h1><span class="js-username-dash"></span></h1>
+        <h2>Practice makes perfect. <br>Feel more confident.</h2>
+</header>
+    <body>
+
+        <main role='main'>
+            <section id="logged-out" class="row">
+                <div class="container col-12">
+                        <h2>Welcome to Interview Prep!</h2> 
+                        <p>Many people feel excited and nervous when they get a job interview.</p> 
+                        <p><b>What questions will the interviewer ask? How do I want to respond?</b></p>
+                        <p>Sometimes, when we think back on what we said in an interview, we wish we had something else.</p> 
+                        <p>Interview Prep is a free and easy to use app with a growing database of common interview questions. This gives you a chance to practice and review your answers so you can perfect them.</p>
+                </div>
+            </section>
+            <button id='get-started' class='center'>Get Started</button>
+
+            <section id="logged-in" class="row hide">
+                <div class="container col-12">
+                        <h2>Getting Started with Interview Prep</h2> 
+                        <p>The Practice section let's you take a 10 question interview consisting of common questions you'll likely encounter during an actual interview.</p> 
+                        <p>Want to look over the questions you've already answered? Head over the Review section to view and edit past interviews.</p>
+                        <p>Click on Account to change your password.</p> 
+                        <p>We know that the job search and interviewing is stressful. Interview Prep is here to help you practice and feel more confident. Don't worry, you are going to be fine.</p>
+                </div>
+            </section>
+        </main>
+    
+    </body>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script type="application/javascript" src="/utilities/auth.module.js"></script>
+    <script type="application/javascript" src="/utilities/http.module.js"></script>
+    <script type="application/javascript" src="/interview/interview.js"></script>
+    <script type="application/javascript" src="/js/render.js"></script>
+    <script type="application/javascript" src="/js/index.js"></script>
+</html>

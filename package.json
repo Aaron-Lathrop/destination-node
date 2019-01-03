@@ -1,0 +1,41 @@
+{
+  "name": "destination-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aaron-Lathrop/destination-node"
+  },
+  "author": "Aaron-Lathrop",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Aaron-Lathrop/destination-node/issues"
+  },
+  "homepage": "https://github.com/Aaron-Lathrop/destination-node#readme",
+  "dependencies": {
+    "apiai": "^4.0.3",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "chai": "^4.1.2",
+    "chai-http": "^4.2.0",
+    "dialogflow": "^0.6.0",
+    "dotenv": "^6.0.0",
+    "eslint": "^5.7.0",
+    "express": "^4.16.3",
+    "faker": "^4.1.0",
+    "jsonwebtoken": "^8.3.0",
+    "mocha": "^5.2.0",
+    "mongoose": "^5.2.14",
+    "morgan": "^1.9.1",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "socket.io": "^2.1.1",
+    "travis": "^0.1.1"
+  }
+}
