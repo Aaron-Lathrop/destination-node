@@ -2,7 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const {Interview} = require('./models');
+const {Trip} = require('./models');
 
 const router = express.Router();
 
@@ -17,10 +17,10 @@ const jwtAuth = passport.authenticate('jwt', {session: false});
 
 router.get('/', jwtAuth, (req,res) => {
   
-  Interview.find({user: req.user.id})
+  Trip.find({user: req.user.id})
   .populate('user')
-  .then(interviews => {
-    return res.status(200).json(interviews.map(interview => interview.serialize()))
+  .then(trips => {
+    return res.status(200).json(trips.map(trip => trip.serialize()))
   })
   .catch(err => {
       console.error(err);
@@ -28,10 +28,10 @@ router.get('/', jwtAuth, (req,res) => {
   });
 });
 
-router.get('/:interviewId', jwtAuth, (req, res) => {
-  Interview.findById(req.params.interviewId)
-  .then(interview => {
-    return res.status(200).json(interview);
+router.get('/:tripId', jwtAuth, (req, res) => {
+  Trip.findById(req.params.tripId)
+  .then(trip => {
+    return res.status(200).json(trip);
   })
   .catch(err => {
     console.error(err);
@@ -39,20 +39,20 @@ router.get('/:interviewId', jwtAuth, (req, res) => {
   });
 });
 
-//updates an individual response in an interview by finding the interview's repsonses and replacing one of them with the desired text
-router.put('/:interviewId', jwtAuth, (req,res) => {
+//updates an individual response in an trip by finding the trip's repsonses and replacing one of them with the desired text
+router.put('/:tripId', jwtAuth, (req,res) => {
   const i = req.body.index;
   const index = parseInt(i);
   const editedResponse = req.body.editedResponse;
-  Interview.findById(req.params.interviewId)
-  .then(interview => {
-    interview.responses[index].responseText = editedResponse;
-    return interview.save();
+  Trip.findById(req.params.tripId)
+  .then(trip => {
+    trip.responses[index].responseText = editedResponse;
+    return trip.save();
   })
   .then((update) => {
-    Interview.findOneAndUpdate({_id: req.params.interviewId}, {$set: {responses: update.responses}})
+    Trip.findOneAndUpdate({_id: req.params.tripId}, {$set: {responses: update.responses}})
     .then(()=> {
-      return res.status(201).json({message: "Interview response updated successfully.", editedResponse})
+      return res.status(201).json({message: "Trip was updated successfully.", editedResponse})
     })
     .catch(err => {
       console.error(err);
@@ -68,22 +68,22 @@ router.put('/:interviewId', jwtAuth, (req,res) => {
 
 router.post('/', jwtAuth, (req,res) => {
   
-  const newInterview = {
+  const newTrip = {
     user: req.user.id,
     username: req.user.username,
     responses: req.body.responses
   }
 
-  Interview.create(newInterview)
-  .then(interview => {
-    res.status(201).json({message: `interview saved successfully`, interview: interview})
+  Trip.create(newTrip)
+  .then(trip => {
+    res.status(201).json({message: `trip saved successfully`, trip: trip})
   })
   .catch(err => {res.end(500).json({message: 'Internal server error! Oh my!'})})
 });
 
-router.delete('/:interviewId', jwtAuth, function(req,res){
+router.delete('/:tripId', jwtAuth, function(req,res){
 
-  Interview.findByIdAndDelete(req.params.interviewId)
+  Trip.findByIdAndDelete(req.params.tripId)
   .then(() => {
     return res.status(201).end();
   })

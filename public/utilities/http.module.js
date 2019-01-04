@@ -13,6 +13,7 @@ function postNewUser(userSignupInfo){
         url: "/users",
         data: JSON.stringify(userSignupInfo),
         success: function(response){
+            console.log('postNewUser');
             loginUser(userSignupInfo);
         }
     });

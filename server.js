@@ -7,7 +7,7 @@ const morgan = require('morgan');
 mongoose.Promise = global.Promise;
 
 const { router: usersRouter } = require('./users');
-const { router: interviewsRouter } = require('./interviews');
+const { router: tripsRouter } = require('./trips');
 const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
 const { PORT, DATABASE_URL} = require('./config');
 const { Question } = require('./models');
@@ -34,9 +34,8 @@ passport.use(localStrategy);
 passport.use(jwtStrategy);
 
 app.use('/users', usersRouter);
-app.use('/interviews', interviewsRouter);
+app.use('/trips', tripsRouter);
 app.use('/auth', authRouter);
-// app.use('/interview', express.static('public/index.html'));
 
 const jwtAuth = passport.authenticate('jwt', {session: false});
 

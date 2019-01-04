@@ -19,11 +19,9 @@ describe('/users', function() {
   const username = 'exampleUser';
   const password = 'examplePass';
   const firstName = 'Example';
-  const lastName = 'User';
   const usernameB = 'exampleUserB';
   const passwordB = 'examplePassB';
   const firstNameB = 'ExampleB';
-  const lastNameB = 'UserB';
 
   before(function() {
     return runServer(TEST_DATABASE_URL);
@@ -47,8 +45,7 @@ describe('/users', function() {
           .post('/users')
           .send({
             password,
-            firstName,
-            lastName
+            firstName
           })
           // .then(() =>
           //   expect.fail(null, null, 'Request should not succeed')
@@ -71,8 +68,7 @@ describe('/users', function() {
           .post('/users')
           .send({
             username,
-            firstName,
-            lastName
+            firstName
           })
           // .then(() =>
           //   expect.fail(null, null, 'Request should not succeed')
@@ -96,8 +92,7 @@ describe('/users', function() {
           .send({
             username: 1234,
             password,
-            firstName,
-            lastName
+            firstName
           })
           // .then(() =>
           //   expect.fail(null, null, 'Request should not succeed')
@@ -123,8 +118,7 @@ describe('/users', function() {
           .send({
             username,
             password: 1234,
-            firstName,
-            lastName
+            firstName
           })
           // .then(() =>
           //   expect.fail(null, null, 'Request should not succeed')
@@ -150,8 +144,7 @@ describe('/users', function() {
           .send({
             username,
             password,
-            firstName: 1234,
-            lastName
+            firstName: 1234
           })
           // .then(() =>
           //   expect.fail(null, null, 'Request should not succeed')
@@ -177,8 +170,7 @@ describe('/users', function() {
           .send({
             username,
             password,
-            firstName,
-            lastName: 1234
+            firstName
           })
           // .then(() =>
           //   expect.fail(null, null, 'Request should not succeed')
@@ -194,7 +186,6 @@ describe('/users', function() {
             expect(res.body.message).to.equal(
               'Incorrect field type: expected string'
             );
-            expect(res.body.location).to.equal('lastName');
           });
       });
       it('Should reject users with non-trimmed username', function() {
@@ -204,8 +195,7 @@ describe('/users', function() {
           .send({
             username: ` ${username} `,
             password,
-            firstName,
-            lastName
+            firstName
           })
           // .then(() =>
           //   expect.fail(null, null, 'Request should not succeed')
@@ -231,8 +221,7 @@ describe('/users', function() {
           .send({
             username,
             password: ` ${password} `,
-            firstName,
-            lastName
+            firstName
           })
           // .then(() =>
           //   expect.fail(null, null, 'Request should not succeed')
@@ -258,8 +247,7 @@ describe('/users', function() {
           .send({
             username: '',
             password,
-            firstName,
-            lastName
+            firstName
           })
           // .then(() =>
           //   expect.fail(null, null, 'Request should not succeed')
@@ -285,8 +273,7 @@ describe('/users', function() {
           .send({
             username,
             password: '123456789',
-            firstName,
-            lastName
+            firstName
           })
           // .then(() =>
           //   expect.fail(null, null, 'Request should not succeed')
@@ -312,8 +299,7 @@ describe('/users', function() {
           .send({
             username,
             password: new Array(73).fill('a').join(''),
-            firstName,
-            lastName
+            firstName
           })
           // .then(() =>
           //   expect.fail(null, null, 'Request should not succeed')
@@ -337,16 +323,14 @@ describe('/users', function() {
         return User.create({
           username,
           password,
-          firstName,
-          lastName
+          firstName
         })
           .then(() =>
             // Try to create a second user with the same username
             chai.request(app).post('/users').send({
               username,
               password,
-              firstName,
-              lastName
+              firstName
             })
           )
           // .then(() =>
@@ -373,8 +357,7 @@ describe('/users', function() {
           .send({
             username,
             password,
-            firstName,
-            lastName
+            firstName
           })
           .then(res => {
             expect(res).to.have.status(201);
@@ -382,7 +365,6 @@ describe('/users', function() {
             expect(res.body).to.have.keys(
               'username',
               'firstName',
-              'lastName',
               'id'
             );
             expect(res.body.username).to.equal(username);
@@ -400,15 +382,14 @@ describe('/users', function() {
             expect(passwordIsCorrect).to.be.true;
           });
       });
-      it('Should trim firstName and lastName', function() {
+      it('Should trim firstName', function() {
         return chai
           .request(app)
           .post('/users')
           .send({
             username,
             password,
-            firstName: ` ${firstName} `,
-            lastName: ` ${lastName} `
+            firstName: ` ${firstName} `
           })
           .then(res => {
             expect(res).to.have.status(201);
@@ -416,12 +397,10 @@ describe('/users', function() {
             expect(res.body).to.have.keys(
               'username',
               'firstName',
-              'lastName',
               'id'
             );
             expect(res.body.username).to.equal(username);
             expect(res.body.firstName).to.equal(firstName);
-            expect(res.body.lastName).to.equal(lastName);
             return User.findOne({
               username
             });
@@ -429,7 +408,6 @@ describe('/users', function() {
           .then(user => {
             expect(user).to.not.be.null;
             expect(user.firstName).to.equal(firstName);
-            expect(user.lastName).to.equal(lastName);
           });
       });
     });
@@ -449,8 +427,7 @@ describe('/users', function() {
           .send({
             username,
             password,
-            firstName,
-            lastName
+            firstName
           })
           .then(res => {
             userid = res.body.id;
@@ -484,8 +461,7 @@ describe('/users', function() {
           .send({
             username,
             password,
-            firstName,
-            lastName
+            firstName
           })
           .then(res => {
             userid = res.body.id;
@@ -539,14 +515,12 @@ describe('/users', function() {
     //       {
     //         username,
     //         password,
-    //         firstName,
-    //         lastName
-    //       },
+    //         firstName
+        //       },
     //       {
     //         username: usernameB,
     //         password: passwordB,
-    //         firstName: firstNameB,
-    //         lastName: lastNameB
+    //         firstName: firstNameB
     //       }
     //     )
     //       .then(() => chai.request(app).get('/users'))
@@ -557,14 +531,12 @@ describe('/users', function() {
     //         expect(res.body[0]).to.deep.equal({
     //           username,
     //           firstName,
-    //           lastName,
     //           id: res.body[0].id
     //         });
             
     //         expect(res.body[1]).to.deep.equal({
     //           username: usernameB,
     //           firstName: firstNameB,
-    //           lastName: lastNameB,
     //           id: res.body[1].id
     //         });
     //       });
@@ -577,8 +549,8 @@ describe('/users', function() {
     //       .send({
     //         username,
     //         password,
-    //         firstName,
-    //         lastName
+    //         firstName
+    //         
     //       })
     //       .then(res => {
     //         return chai
@@ -598,7 +570,6 @@ describe('/users', function() {
     //             expect(res).to.have.status(200);
     //             expect(res.body.username).to.equal(username);
     //             expect(res.body.firstName).to.equal(firstName);
-    //             expect(res.body.lastName).to.equal(lastName);
     //           })
     //         })
     //       })
@@ -608,14 +579,12 @@ describe('/users', function() {
         //     {
         //       username,
         //       password,
-        //       firstName,
-        //       lastName
+        //       firstName
         //     },
         //     {
         //       username: usernameB,
         //       password: passwordB,
-        //       firstName: firstNameB,
-        //       lastName: lastNameB
+        //       firstName: firstNameB
         //     })
         //     .then(() => {
         //       return chai
