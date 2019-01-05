@@ -66,12 +66,19 @@ router.put('/:tripId', jwtAuth, (req,res) => {
 
 });
 
+
+//create a new trip
 router.post('/', jwtAuth, (req,res) => {
   
   const newTrip = {
     user: req.user.id,
-    username: req.user.username,
-    responses: req.body.responses
+    // username: req.user.username,
+    startDate: req.body.startDate,
+    endDate: req.body.endDate,
+    dateList: req.body.dateList,
+    destination: req.body.destination,
+    icon: req.body.icon,
+    planCards: req.body.planCards
   }
 
   Trip.create(newTrip)

@@ -16,7 +16,7 @@ passport.use(jwtStrategy);
 const jwtAuth = passport.authenticate('jwt', {session: false});
 
 // Post to register a new user
-router.post('/', jsonParser, (req, res) => {
+router.post('/signup', jsonParser, (req, res) => {
   const requiredFields = ['username', 'password', 'firstName'];
   const missingField = requiredFields.find(field => !(field in req.body));
 
