@@ -21,6 +21,7 @@ const localAuth = passport.authenticate('local', {session: false});
 
 router.use(express.json());
 
+//allows users to login
 router.post('/login', localAuth, (req,res) => {
     if(!(req.body.username && req.body.password)){
         let message;
