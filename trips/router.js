@@ -77,6 +77,38 @@ router.put('/:tripId', jwtAuth, (req,res) => {
 
 });
 
+//adds a new plan to a given trip by updating a specific planCard's plan array
+router.put('/addplan/:tripId', jwtAuth, (req,res) => {
+  const updatedPlanCard = req.body;
+ 
+  Trip.findById(req.params.tripId)
+  .then(trip => {
+    
+      trip = Object.assign({}, trip, {
+        planCards: trip.planCards.map(card => card.date === updatedPlanCard.date ? updatedPlanCard : card)
+      })
+
+    return trip;
+  })
+  .then((update) => {
+    Trip.findOneAndUpdate({_id: req.params.tripId}, {
+      planCards: update.planCards
+    }, {new: true})
+    .then((trip)=> {
+      return res.status(201).json({message: "Trip was updated successfully.", trip})
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({message: "Internal server error! Oh my!"});
+      });
+    })
+  .catch(err => {
+    console.error(err);
+    res.status(500).json({message: "Internal server error! Oh my!"});
+  });
+
+});
+
 
 //create a new trip
 router.post('/', jwtAuth, (req,res) => {
