@@ -61,9 +61,9 @@ router.put('/:tripId', jwtAuth, (req,res) => {
       endDate: update.endDate,
       dateList: update.dateList,
       planCards: update.planCards
-    })
-    .then(()=> {
-      return res.status(201).json({message: "Trip was updated successfully.", updateTrip})
+    }, {new: true})
+    .then((trip)=> {
+      return res.status(201).json({message: "Trip was updated successfully.", trip})
     })
     .catch(err => {
       console.error(err);
