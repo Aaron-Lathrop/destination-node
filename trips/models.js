@@ -21,7 +21,7 @@ tripSchema.pre('create', function(next){
 
 tripSchema.methods.serialize = function() {
     return {
-        id: this._id,
+        tripId: this._id,
         created: `${this.created.getMonth()+1}/${this.created.getDate()}/${this.created.getFullYear()}`,
         startDate: this.startDate,
         endDate: this.endDate,

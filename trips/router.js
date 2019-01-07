@@ -41,18 +41,29 @@ router.get('/:tripId', jwtAuth, (req, res) => {
 
 //updates an individual response in an trip by finding the trip's repsonses and replacing one of them with the desired text
 router.put('/:tripId', jwtAuth, (req,res) => {
-  const i = req.body.index;
-  const index = parseInt(i);
-  const editedResponse = req.body.editedResponse;
+  const updateTrip = req.body;
+ 
   Trip.findById(req.params.tripId)
   .then(trip => {
-    trip.responses[index].responseText = editedResponse;
-    return trip.save();
+    trip = Object.assign({}, trip, {
+      destination: updateTrip.destination ? updateTrip.destination : trip.destination,
+      startDate: updateTrip.startDate ? updateTrip.startDate : trip.startDate,
+      endDate: updateTrip.endDate ? updateTrip.endDate : trip.endDate,
+      dateList: updateTrip.dateList ? updateTrip.dateList : trip.dateList,
+      planCards: updateTrip.planCards ? updateTrip.planCards : trip.planCards
+      });
+    return trip;
   })
   .then((update) => {
-    Trip.findOneAndUpdate({_id: req.params.tripId}, {$set: {responses: update.responses}})
+    Trip.findOneAndUpdate({_id: req.params.tripId}, {
+      destination: update.destination,
+      startDate: update.startDate,
+      endDate: update.endDate,
+      dateList: update.dateList,
+      planCards: update.planCards
+    })
     .then(()=> {
-      return res.status(201).json({message: "Trip was updated successfully.", editedResponse})
+      return res.status(201).json({message: "Trip was updated successfully.", updateTrip})
     })
     .catch(err => {
       console.error(err);
