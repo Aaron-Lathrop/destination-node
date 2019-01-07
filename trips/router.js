@@ -77,13 +77,13 @@ router.put('/:tripId', jwtAuth, (req,res) => {
 
 });
 
-//adds a new plan to a given trip by updating a specific planCard's plan array
-router.put('/addplan/:tripId', jwtAuth, (req,res) => {
+//updates plans for a given planCard on a given trip based on tripId and planCard date
+router.put('/updateplan/:tripId', jwtAuth, (req,res) => {
   const updatedPlanCard = req.body;
  
   Trip.findById(req.params.tripId)
   .then(trip => {
-    
+
       trip = Object.assign({}, trip, {
         planCards: trip.planCards.map(card => card.date === updatedPlanCard.date ? updatedPlanCard : card)
       })
@@ -95,7 +95,7 @@ router.put('/addplan/:tripId', jwtAuth, (req,res) => {
       planCards: update.planCards
     }, {new: true})
     .then((trip)=> {
-      return res.status(201).json({message: "Trip was updated successfully.", trip})
+      return res.status(201).json({message: "Trip was updated successfully.", updatedPlanCard})
     })
     .catch(err => {
       console.error(err);
@@ -108,6 +108,38 @@ router.put('/addplan/:tripId', jwtAuth, (req,res) => {
   });
 
 });
+
+//adds an additional plan to the end of the plan list for a given trip based on tripId and planCard date
+// router.post('/addplan/:tripId', jwtAuth, (req,res) => {
+//   const newPlan = req.body.plans[req.body.plans.length - 1];
+ 
+//   Trip.findById(req.params.tripId)
+//   .then(trip => {
+
+//       trip = Object.assign({}, trip, {
+//         planCards: trip.planCards.map(card => card.date === req.body.date ? [...trip.planCards] : card)
+//       })
+
+//     return trip;
+//   })
+//   .then((update) => {
+//     Trip.findOneAndUpdate({_id: req.params.tripId}, {
+//       planCards: update.planCards
+//     }, {new: true})
+//     .then((trip)=> {
+//       return res.status(201).json({message: "Trip was updated successfully.", trip})
+//     })
+//     .catch(err => {
+//       console.error(err);
+//       res.status(500).json({message: "Internal server error! Oh my!"});
+//       });
+//     })
+//   .catch(err => {
+//     console.error(err);
+//     res.status(500).json({message: "Internal server error! Oh my!"});
+//   });
+
+// });
 
 
 //create a new trip
