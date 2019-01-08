@@ -95,7 +95,59 @@ router.put('/updateplan/:tripId', jwtAuth, (req,res) => {
       planCards: update.planCards
     }, {new: true})
     .then((trip)=> {
-      return res.status(201).json({message: "Trip was updated successfully.", updatedPlanCard})
+      return res.status(200).json({message: "Trip was updated successfully.", updatedPlanCard})
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({message: "Internal server error! Oh my!"});
+      });
+    })
+  .catch(err => {
+    console.error(err);
+    res.status(500).json({message: "Internal server error! Oh my!"});
+  });
+
+});
+
+
+//deletes requested plans from a specific planCard by filtering out the content from the original
+//plans and updating the planCard
+router.patch('/deleteplan/:tripId', jwtAuth, (req,res) => {
+  if(!Array.isArray(req.body.plans) || !req.body.date) {
+       res.sendStatus(422).end();
+  } else if(!req.body.hasContentToDelete || req.body.plans.length === 0) {
+    res.status(204).json({message: "No requested content to update found."})
+  }
+
+  const orginalRequest = req.body;
+  const contentToDelete = req.body.plans;
+
+  console.log('req.body ', req.body);
+  console.log('contentToDelete ', req.body.plans);
+ 
+  Trip.findById(req.params.tripId)
+  .then(trip => {
+
+      const targetPlanCard = trip.planCards.find(planCard => planCard.date === req.body.date);
+      const updatedPlanCard = Object.assign({}, targetPlanCard, {
+        plans: targetPlanCard.plans.filter(plan => !contentToDelete.includes(plan))
+      })
+
+    return {trip, updatedPlanCard};
+  })
+  .then((update) => {
+    Trip.findOneAndUpdate({_id: req.params.tripId}, {
+      planCards: update.trip.planCards.map(planCard => {
+        if(planCard.date !== update.updatedPlanCard.date) {
+          return planCard;
+        }
+
+        return update.updatedPlanCard
+      })
+    }, {new: true})
+    .then((trip)=> {
+      console.log('res ', res);
+      return res.status(200).json({message: "Trip was updated successfully.", orginalRequest})
     })
     .catch(err => {
       console.error(err);
