@@ -119,11 +119,8 @@ router.patch('/deleteplan/:tripId', jwtAuth, (req,res) => {
     res.status(204).json({message: "No requested content to update found."})
   }
 
-  const orginalRequest = req.body;
+  const originalRequest = req.body;
   const contentToDelete = req.body.plans;
-
-  console.log('req.body ', req.body);
-  console.log('contentToDelete ', req.body.plans);
  
   Trip.findById(req.params.tripId)
   .then(trip => {
@@ -146,8 +143,7 @@ router.patch('/deleteplan/:tripId', jwtAuth, (req,res) => {
       })
     }, {new: true})
     .then((trip)=> {
-      console.log('res ', res);
-      return res.status(200).json({message: "Trip was updated successfully.", orginalRequest})
+      return res.status(200).json({message: "Trip was updated successfully.", originalRequest})
     })
     .catch(err => {
       console.error(err);
