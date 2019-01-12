@@ -17,7 +17,7 @@ const jwtAuth = passport.authenticate('jwt', {session: false});
 
 // Post to register a new user
 router.post('/signup', jsonParser, (req, res) => {
-  const requiredFields = ['username', 'password', 'firstName'];
+  const requiredFields = ['username', 'password'];
   const missingField = requiredFields.find(field => !(field in req.body));
 
   if (missingField) {
@@ -29,7 +29,7 @@ router.post('/signup', jsonParser, (req, res) => {
     });
   }
 
-  const stringFields = ['username', 'password', 'firstName'];
+  const stringFields = ['username', 'password'];
   const nonStringField = stringFields.find(
     field => field in req.body && typeof req.body[field] !== 'string'
   );
@@ -91,18 +91,17 @@ router.post('/signup', jsonParser, (req, res) => {
       code: 422,
       reason: 'ValidationError',
       message: tooSmallField
-        ? `Must be at least ${sizedFields[tooSmallField]
+        ? `Password must be at least ${sizedFields[tooSmallField]
           .min} characters long`
-        : `Must be at most ${sizedFields[tooLargeField]
+        : `Password must be at most ${sizedFields[tooLargeField]
           .max} characters long`,
       location: tooSmallField || tooLargeField
     });
   }
 
-  let {username, password, firstName = ''} = req.body;
+  let {username, password} = req.body;
   // Username and password come in pre-trimmed, otherwise we throw an error
   // before this
-  firstName = firstName.trim();
   
   return User.find({username})
     .countDocuments()
@@ -125,12 +124,10 @@ router.post('/signup', jsonParser, (req, res) => {
       
       return User.create({
         username,
-        password: hash,
-        firstName
+        password: hash
       });
     })
     .then(user => {
-      console.log(user.serialize());
       return res.status(201).json(user.serialize());
     })
     .catch(err => {
