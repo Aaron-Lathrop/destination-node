@@ -1,44 +1,113 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Destino - Simple Planning
 
-## Available Scripts
+The Destino app let's you plan trips with a minimal user interface. Users can create trips and then add plans for each day of the trip. Trips and plans can be edited or deleted as desired.
 
-In the project directory, you can run:
+### Working Prototype
 
-### `npm start`
+View working prototype here: [Destino - Simple Planning](https://rocky-harbor-70453.herokuapp.com/)
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+This app was created using create-react-app.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+This is the server repository for the Destino - Simple Planning client.
 
-### `npm test`
+## Site Map: MVP
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## UX & User Stories: MVP
 
-### `npm run build`
+**Landing Page**
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+As a user, I want to understand what the app is so that I can decide if I want to sign up
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+![Landing page design](/assets/Landing_page_1.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**Sign-up Form**
 
-### `npm run eject`
+As a user, I want to sign up so I can save my trips and plans
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+![Sign-up form design](/assets/Sign_up_form.png)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+**Login Form**
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+As a user, I want to log in so I can access my information
 
-## Learn More
+![Login form design](/assets/Login_form.png)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**Trips Page**
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+As a user, I want to see which trips I've created
+
+![Trips page design](/assets/Trips_page.png)
+
+**Create a new trip Form**
+
+As a user, I want to create new trips to organize my plans
+
+![Create a new trip form design](/assets/Create_a_new_trip_form.png)
+
+**Update trip form**
+
+As a user, I want to be able to update trips I've created
+
+![Update trip form design](/assets/Update_trip_form.png)
+
+**Trip Plans Page**
+
+As a user, I want to see my plans for a trip organized by date, add new plans, edit plans, and delete plans
+
+![Trip plans page design](/assets/Trip_plans_page.png)
+
+**Edit plans form**
+
+As a user, I want to add new plans, edit plans, and delete plans
+
+![Edit plans form design](/assets/Edit_plans_form.png)
+
+**Delete Trip Button**
+
+As a user, I want to be able to delete trips so I can stay organized and handle trips that have been canceled
+
+![Edit plans form design](/assets/Delete_trip.png)
+
+**Log Out Page**
+
+As a user, I want to log out so I can keep my account and information secure
+
+## Technical
+
+Destino - Simple Planning was bulit with:
+
+#### Front End
+
+* HTML5
+* CSS3
+* JavaScript 
+* React.js
+* Redux
+* Enzyme for testing
+
+#### Back End 
+
+* Node.js 
+* Express.js
+* MongoDB
+* Mongoose
+* mLab database
+* Mocha and Chai for testing
+
+
+### Responsive
+This app is built to be responsive to smaller screen sizes using css flexbox and grid, css and media screen width breakpoint of 600px for smaller screen sizes
+
+## Development Road Map
+Features for future iterations include:
+- Add country flags to trip section
+- Add research section with wikipedia api
+- Add TripAdvisor api to easily find things to do
+- Add drag and drop to rearrange plans on each day and between days
+- Add Unsplash api and Google Places api support to show images of different locations
+- Add share feature so users can collaborate with others on trips
+- Add email verification on sign up
+- Add social sharring feature (e.g. Facebook, Instagram, etc...)
+- Add change password feature
+- Add delete user feature
