@@ -3,7 +3,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 
 const {app, runServer, closeServer} = require('../server');
-const {Interview} = require('../interviews');
+const {Trip} = require('../trips');
 const {User} = require('../users')
 const { JWT_SECRET, TEST_DATABASE_URL } = require('../config');
 const mongoose = require('mongoose');
@@ -26,19 +26,48 @@ function tearDownDb() {
     });
   }
 
-describe('/interview', function(){
-  const questionText = 'Example question?';
-  const responseText = 'Response lorem';
-  const responses = [{questionText, responseText}]
-
+describe('/trips', function(){
   let user;
   let userid;
   let jwtToken;
 
   const username = 'exampleUser';
   const password = 'examplePass';
-  const firstName = 'Example';
-  const lastName = 'User';
+
+  const trip = {
+    startDate: '1/1/2019',
+    endDate: '1/5/2019',
+    dateList: ['1/1/2019','1/2/2019','1/3/2019','1/4/2019','1/5/2019'],
+    destination: "Tokyo, Japan",
+    icon: '',
+    planCards: [
+      {
+        plans: ["this is a test plan","Another test plan","yet another test plan"],
+        date: "1/1/2019",
+        weather: "super cold"
+      },
+      {
+        plans: ["this is a test plan","Another test plan","yet another test plan"],
+        date: "1/2/2019",
+        weather: "super cold"
+      },
+      {
+        plans: ["this is a test plan","Another test plan","yet another test plan"],
+        date: "1/3/2019",
+        weather: "super cold"
+      },
+      {
+        plans: ["this is a test plan","Another test plan","yet another test plan"],
+        date: "1/4/2019",
+        weather: "super cold"
+      },
+      {
+        plans: ["this is a test plan","Another test plan","yet another test plan"],
+        date: "1/5/2019",
+        weather: "super cold"
+      }
+    ]
+  };
 
   before(function () {
     return runServer(TEST_DATABASE_URL);
@@ -47,12 +76,10 @@ describe('/interview', function(){
   beforeEach(function(){
     return chai
     .request(app)
-    .post('/users')
+    .post('/users/signup')
     .send({
       username,
-      password,
-      firstName,
-      lastName
+      password
     })
     .then(res => {
       userid = res.body.id;
@@ -76,25 +103,27 @@ describe('/interview', function(){
   
     describe('POST', function(){
 
-      it('should create a new interview', function(){
+      it('should create a new trip', function(){
         return chai
         .request(app)
-        .post(`/interviews`)
-        .send({user, responses})
+        .post(`/trips`)
+        .send({user, trip})
         .set('Authorization', `Bearer ${jwtToken}`)
         .then(res => {
           expect(res).to.have.status(201);
           expect(res.body).to.be.an('object');
           expect(res.body).to.have.keys(
             'message',
-            'interview'
+            'trip'
           );
-          expect(res.body.interview.user).to.equal(userid);
-          expect(res.body.interview.responses[0].questionText).to.equal(responses[0].questionText);
-          expect(res.body.interview.responses[0].responseText).to.equal(responses[0].responseText);
-
+          expect(res.body.trip.startDate).to.equal(trip.startDate);
+          expect(res.body.trip.endDate).to.equal(trip.endDate);
+          expect(res.body.trip.dateList).to.eql(trip.dateList);
+          expect(res.body.trip.destination).to.equal(trip.destination);
+          expect(res.body.trip.icon).to.equal(trip.icon);
+          expect(res.body.trip.planCards).to.eql(trip.planCards);
         })
-      });//it('should create a new interview')
+      });//it('should create a new trip')
 
       })
 
@@ -103,7 +132,7 @@ describe('/interview', function(){
         it('should return an empty array initially', function(){
           return chai
           .request(app)
-          .get(`/interviews`)
+          .get(`/trips`)
           .set('Authorization', `Bearer ${jwtToken}`)
           .then(res => {
             expect(res).to.have.status(200);
@@ -112,45 +141,49 @@ describe('/interview', function(){
           })
         });//it('should create a new interview')
         
-        it('should return an array of interviews', function(){
-          let interview;
+        it('should return an array of trips', function(){
+          let _trip;
           return chai
           .request(app)
-          .post(`/interviews`)
-          .send({user, responses})
+          .post(`/trips`)
+          .send({user, trip})
           .set('Authorization', `Bearer ${jwtToken}`)
           .then((res) => {
-            interview = res.body.interview;
+            _trip = res.body.trip;
             return chai
             .request(app)
-            .get(`/interviews`)
+            .get(`/trips`)
             .set('Authorization', `Bearer ${jwtToken}`)
           })
           .then(res => {
             expect(res).to.have.status(200);
             expect(res.body).to.be.an('array');
+            console.log('res.body: ',res.body);
             expect(res.body).to.have.length(1);
-            expect(res.body[0].id).to.equal(interview._id);
-            expect(res.body[0].responses[0]).to.deep.equal(interview.responses[0]);
+            expect(res.body[0].tripId).to.equal(_trip._id);
+            expect(res.body[0].startDate).to.equal(_trip.startDate);
+            expect(res.body[0].endDate).to.equal(_trip.endDate);
+            expect(res.body[0].destination).to.equal(_trip.destination);
+            expect(res.body[0].planCards).to.deep.equal(_trip.planCards);
           })
-        });//it('should return an array of interviews')
+        });//it('should return an array of trips')
 
       })
 
       describe('DELETE', function(){
         
-        it('should delete an interview by id', function(){
-          let interview;
+        it('should delete an trip by id', function(){
+          let _trip;
           return chai
           .request(app)
-          .post(`/interviews`)
-          .send({user, responses})
+          .post(`/trips`)
+          .send({user, trip})
           .set('Authorization', `Bearer ${jwtToken}`)
           .then((res) => {
-            interview = res.body.interview;
+            _trip = res.body.trip;
             return chai
             .request(app)
-            .delete(`/interviews/${interview._id}`)
+            .delete(`/trips/delete/${_trip._id}`)
             .set('Authorization', `Bearer ${jwtToken}`)
           })
           .then(res => {
@@ -159,7 +192,7 @@ describe('/interview', function(){
           .then((res) => {
             return chai
             .request(app)
-            .get(`/interviews`)
+            .get(`/trips`)
             .set('Authorization', `Bearer ${jwtToken}`)
           })
           .then(res => {
@@ -167,7 +200,7 @@ describe('/interview', function(){
             expect(res.body).to.have.length(0);
           })
 
-        });//it('should delete an interview by id')
+        });//it('should delete an trip by id')
 
       })
 

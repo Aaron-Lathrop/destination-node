@@ -18,10 +18,8 @@ chai.use(chaiHttp);
 describe('/users', function() {
   const username = 'exampleUser';
   const password = 'examplePass';
-  const firstName = 'Example';
   const usernameB = 'exampleUserB';
   const passwordB = 'examplePassB';
-  const firstNameB = 'ExampleB';
 
   before(function() {
     return runServer(TEST_DATABASE_URL);
@@ -42,10 +40,9 @@ describe('/users', function() {
       it('Should reject users with missing username', function() {
         return chai
           .request(app)
-          .post('/users')
+          .post('/users/signup')
           .send({
-            password,
-            firstName
+            password
           })
           // .then(() =>
           //   expect.fail(null, null, 'Request should not succeed')
@@ -65,10 +62,9 @@ describe('/users', function() {
       it('Should reject users with missing password', function() {
         return chai
           .request(app)
-          .post('/users')
+          .post('/users/signup')
           .send({
-            username,
-            firstName
+            username
           })
           // .then(() =>
           //   expect.fail(null, null, 'Request should not succeed')
@@ -88,11 +84,10 @@ describe('/users', function() {
       it('Should reject users with non-string username', function() {
         return chai
           .request(app)
-          .post('/users')
+          .post('/users/signup')
           .send({
             username: 1234,
-            password,
-            firstName
+            password
           })
           // .then(() =>
           //   expect.fail(null, null, 'Request should not succeed')
@@ -114,11 +109,10 @@ describe('/users', function() {
       it('Should reject users with non-string password', function() {
         return chai
           .request(app)
-          .post('/users')
+          .post('/users/signup')
           .send({
             username,
-            password: 1234,
-            firstName
+            password: 1234
           })
           // .then(() =>
           //   expect.fail(null, null, 'Request should not succeed')
@@ -137,65 +131,60 @@ describe('/users', function() {
             expect(res.body.location).to.equal('password');
           });
       });
-      it('Should reject users with non-string first name', function() {
-        return chai
-          .request(app)
-          .post('/users')
-          .send({
-            username,
-            password,
-            firstName: 1234
-          })
-          // .then(() =>
-          //   expect.fail(null, null, 'Request should not succeed')
-          // )
-          .catch(err => {
-            if (err instanceof chai.AssertionError) {
-              throw err;
-            }
+      // it('Should reject users with non-string first name', function() {
+      //   return chai
+      //     .request(app)
+      //     .post('/users')
+      //     .send({
+      //       username,
+      //       password
+      //     })
+      //     // .then(() =>
+      //     //   expect.fail(null, null, 'Request should not succeed')
+      //     // )
+      //     .catch(err => {
+      //       if (err instanceof chai.AssertionError) {
+      //         throw err;
+      //       }
 
-            const res = err.response;
-            expect(res).to.have.status(422);
-            expect(res.body.reason).to.equal('ValidationError');
-            expect(res.body.message).to.equal(
-              'Incorrect field type: expected string'
-            );
-            expect(res.body.location).to.equal('firstName');
-          });
-      });
-      it('Should reject users with non-string last name', function() {
-        return chai
-          .request(app)
-          .post('/users')
-          .send({
-            username,
-            password,
-            firstName
-          })
-          // .then(() =>
-          //   expect.fail(null, null, 'Request should not succeed')
-          // )
-          .catch(err => {
-            if (err instanceof chai.AssertionError) {
-              throw err;
-            }
+      //       const res = err.response;
+      //       expect(res).to.have.status(422);
+      //       expect(res.body.reason).to.equal('ValidationError');
+      //       expect(res.body.message).to.equal(
+      //         'Incorrect field type: expected string'
+      //       );
+      //     });
+      // });
+      // it('Should reject users with non-string last name', function() {
+      //   return chai
+      //     .request(app)
+      //     .post('/users')
+      //     .send({
+      //       username,
+      //       password
+      //     // .then(() =>
+      //     //   expect.fail(null, null, 'Request should not succeed')
+      //     // )
+      //     .catch(err => {
+      //       if (err instanceof chai.AssertionError) {
+      //         throw err;
+      //       }
 
-            const res = err.response;
-            expect(res).to.have.status(422);
-            expect(res.body.reason).to.equal('ValidationError');
-            expect(res.body.message).to.equal(
-              'Incorrect field type: expected string'
-            );
-          });
-      });
+      //       const res = err.response;
+      //       expect(res).to.have.status(422);
+      //       expect(res.body.reason).to.equal('ValidationError');
+      //       expect(res.body.message).to.equal(
+      //         'Incorrect field type: expected string'
+      //       );
+      //     });
+      // });
       it('Should reject users with non-trimmed username', function() {
         return chai
           .request(app)
-          .post('/users')
+          .post('/users/signup')
           .send({
             username: ` ${username} `,
-            password,
-            firstName
+            password
           })
           // .then(() =>
           //   expect.fail(null, null, 'Request should not succeed')
@@ -217,11 +206,10 @@ describe('/users', function() {
       it('Should reject users with non-trimmed password', function() {
         return chai
           .request(app)
-          .post('/users')
+          .post('/users/signup')
           .send({
             username,
-            password: ` ${password} `,
-            firstName
+            password: ` ${password} `
           })
           // .then(() =>
           //   expect.fail(null, null, 'Request should not succeed')
@@ -243,11 +231,10 @@ describe('/users', function() {
       it('Should reject users with empty username', function() {
         return chai
           .request(app)
-          .post('/users')
+          .post('/users/signup')
           .send({
             username: '',
-            password,
-            firstName
+            password
           })
           // .then(() =>
           //   expect.fail(null, null, 'Request should not succeed')
@@ -269,11 +256,10 @@ describe('/users', function() {
       it('Should reject users with password less than ten characters', function() {
         return chai
           .request(app)
-          .post('/users')
+          .post('/users/signup')
           .send({
             username,
-            password: '123456789',
-            firstName
+            password: '123456789'
           })
           // .then(() =>
           //   expect.fail(null, null, 'Request should not succeed')
@@ -295,11 +281,10 @@ describe('/users', function() {
       it('Should reject users with password greater than 72 characters', function() {
         return chai
           .request(app)
-          .post('/users')
+          .post('/users/signup')
           .send({
             username,
-            password: new Array(73).fill('a').join(''),
-            firstName
+            password: new Array(73).fill('a').join('')
           })
           // .then(() =>
           //   expect.fail(null, null, 'Request should not succeed')
@@ -322,15 +307,13 @@ describe('/users', function() {
         // Create an initial user
         return User.create({
           username,
-          password,
-          firstName
+          password
         })
           .then(() =>
             // Try to create a second user with the same username
             chai.request(app).post('/users').send({
               username,
-              password,
-              firstName
+              password
             })
           )
           // .then(() =>
@@ -353,64 +336,60 @@ describe('/users', function() {
       it('Should create a new user', function() {
         return chai
           .request(app)
-          .post('/users')
+          .post('/users/signup')
           .send({
             username,
-            password,
-            firstName
+            password
           })
           .then(res => {
             expect(res).to.have.status(201);
             expect(res.body).to.be.an('object');
             expect(res.body).to.have.keys(
               'username',
-              'firstName',
               'id'
             );
             expect(res.body.username).to.equal(username);
-            expect(res.body.firstName).to.equal(firstName);
             return User.findOne({
               username
             });
           })
           .then(user => {
             expect(user).to.not.be.null;
-            expect(user.firstName).to.equal(firstName);
             return user.validatePassword(password);
           })
           .then(passwordIsCorrect => {
             expect(passwordIsCorrect).to.be.true;
           });
       });
-      it('Should trim firstName', function() {
-        return chai
-          .request(app)
-          .post('/users')
-          .send({
-            username,
-            password,
-            firstName: ` ${firstName} `
-          })
-          .then(res => {
-            expect(res).to.have.status(201);
-            expect(res.body).to.be.an('object');
-            expect(res.body).to.have.keys(
-              'username',
-              'firstName',
-              'id'
-            );
-            expect(res.body.username).to.equal(username);
-            expect(res.body.firstName).to.equal(firstName);
-            return User.findOne({
-              username
-            });
-          })
-          .then(user => {
-            expect(user).to.not.be.null;
-            expect(user.firstName).to.equal(firstName);
-          });
-      });
-    });
+    //   it('Should trim firstName', function() {
+    //     return chai
+    //       .request(app)
+    //       .post('/users')
+    //       .send({
+    //         username,
+    //         password,
+    //         firstName: ` ${firstName} `
+    //       })
+    //       .then(res => {
+    //         expect(res).to.have.status(201);
+    //         expect(res.body).to.be.an('object');
+    //         expect(res.body).to.have.keys(
+    //           'username',
+    //           'firstName',
+    //           'id'
+    //         );
+    //         expect(res.body.username).to.equal(username);
+    //         expect(res.body.firstName).to.equal(firstName);
+    //         return User.findOne({
+    //           username
+    //         });
+    //       })
+    //       .then(user => {
+    //         expect(user).to.not.be.null;
+    //         expect(user.firstName).to.equal(firstName);
+    //       });
+    //   });
+    // });
 
     describe('PUT', function(){
       it('should change the user password', function(){
@@ -423,11 +402,10 @@ describe('/users', function() {
         }
         return chai
           .request(app)
-          .post('/users')
+          .post('/users/signup')
           .send({
             username,
-            password,
-            firstName
+            password
           })
           .then(res => {
             userid = res.body.id;
@@ -457,11 +435,10 @@ describe('/users', function() {
         }
         return chai
           .request(app)
-          .post('/users')
+          .post('/users/signup')
           .send({
             username,
-            password,
-            firstName
+            password
           })
           .then(res => {
             userid = res.body.id;
@@ -492,7 +469,7 @@ describe('/users', function() {
         
   });
 });
-
+});
 
 
 
@@ -604,4 +581,4 @@ describe('/users', function() {
         //     })
         //     })
           
-        // });//it should delete a specific user
+        // });

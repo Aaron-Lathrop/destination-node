@@ -192,8 +192,7 @@ router.patch('/deleteplan/:tripId', jwtAuth, (req,res) => {
 
 //create a new trip
 router.post('/', jwtAuth, (req,res) => {
-  console.log(req.body);
-  
+
   const newTrip = {
     user: req.user.id,
     // username: req.user.username,
@@ -212,7 +211,7 @@ router.post('/', jwtAuth, (req,res) => {
   .catch(err => {res.end(500).json({message: 'Internal server error! Oh my!'})})
 });
 
-router.delete('/:tripId', jwtAuth, function(req,res){
+router.delete('/delete/:tripId', jwtAuth, function(req,res){
 
   Trip.findByIdAndDelete(req.params.tripId)
   .then(() => {
