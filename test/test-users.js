@@ -44,9 +44,6 @@ describe('/users', function() {
           .send({
             password
           })
-          // .then(() =>
-          //   expect.fail(null, null, 'Request should not succeed')
-          // )
           .catch(err => {
             if (err instanceof chai.AssertionError) {
               throw err;
@@ -66,9 +63,6 @@ describe('/users', function() {
           .send({
             username
           })
-          // .then(() =>
-          //   expect.fail(null, null, 'Request should not succeed')
-          // )
           .catch(err => {
             if (err instanceof chai.AssertionError) {
               throw err;
@@ -89,9 +83,6 @@ describe('/users', function() {
             username: 1234,
             password
           })
-          // .then(() =>
-          //   expect.fail(null, null, 'Request should not succeed')
-          // )
           .catch(err => {
             if (err instanceof chai.AssertionError) {
               throw err;
@@ -114,9 +105,6 @@ describe('/users', function() {
             username,
             password: 1234
           })
-          // .then(() =>
-          //   expect.fail(null, null, 'Request should not succeed')
-          // )
           .catch(err => {
             if (err instanceof chai.AssertionError) {
               throw err;
@@ -131,53 +119,7 @@ describe('/users', function() {
             expect(res.body.location).to.equal('password');
           });
       });
-      // it('Should reject users with non-string first name', function() {
-      //   return chai
-      //     .request(app)
-      //     .post('/users')
-      //     .send({
-      //       username,
-      //       password
-      //     })
-      //     // .then(() =>
-      //     //   expect.fail(null, null, 'Request should not succeed')
-      //     // )
-      //     .catch(err => {
-      //       if (err instanceof chai.AssertionError) {
-      //         throw err;
-      //       }
 
-      //       const res = err.response;
-      //       expect(res).to.have.status(422);
-      //       expect(res.body.reason).to.equal('ValidationError');
-      //       expect(res.body.message).to.equal(
-      //         'Incorrect field type: expected string'
-      //       );
-      //     });
-      // });
-      // it('Should reject users with non-string last name', function() {
-      //   return chai
-      //     .request(app)
-      //     .post('/users')
-      //     .send({
-      //       username,
-      //       password
-      //     // .then(() =>
-      //     //   expect.fail(null, null, 'Request should not succeed')
-      //     // )
-      //     .catch(err => {
-      //       if (err instanceof chai.AssertionError) {
-      //         throw err;
-      //       }
-
-      //       const res = err.response;
-      //       expect(res).to.have.status(422);
-      //       expect(res.body.reason).to.equal('ValidationError');
-      //       expect(res.body.message).to.equal(
-      //         'Incorrect field type: expected string'
-      //       );
-      //     });
-      // });
       it('Should reject users with non-trimmed username', function() {
         return chai
           .request(app)
@@ -186,9 +128,6 @@ describe('/users', function() {
             username: ` ${username} `,
             password
           })
-          // .then(() =>
-          //   expect.fail(null, null, 'Request should not succeed')
-          // )
           .catch(err => {
             if (err instanceof chai.AssertionError) {
               throw err;
@@ -211,9 +150,6 @@ describe('/users', function() {
             username,
             password: ` ${password} `
           })
-          // .then(() =>
-          //   expect.fail(null, null, 'Request should not succeed')
-          // )
           .catch(err => {
             if (err instanceof chai.AssertionError) {
               throw err;
@@ -236,9 +172,6 @@ describe('/users', function() {
             username: '',
             password
           })
-          // .then(() =>
-          //   expect.fail(null, null, 'Request should not succeed')
-          // )
           .catch(err => {
             if (err instanceof chai.AssertionError) {
               throw err;
@@ -261,9 +194,7 @@ describe('/users', function() {
             username,
             password: '123456789'
           })
-          // .then(() =>
-          //   expect.fail(null, null, 'Request should not succeed')
-          // )
+          
           .catch(err => {
             if (err instanceof chai.AssertionError) {
               throw err;
@@ -286,9 +217,7 @@ describe('/users', function() {
             username,
             password: new Array(73).fill('a').join('')
           })
-          // .then(() =>
-          //   expect.fail(null, null, 'Request should not succeed')
-          // )
+          
           .catch(err => {
             if (err instanceof chai.AssertionError) {
               throw err;
@@ -316,9 +245,7 @@ describe('/users', function() {
               password
             })
           )
-          // .then(() =>
-          //   expect.fail(null, null, 'Request should not succeed')
-          // )
+          
           .catch(err => {
             if (err instanceof chai.AssertionError) {
               throw err;
@@ -361,35 +288,6 @@ describe('/users', function() {
             expect(passwordIsCorrect).to.be.true;
           });
       });
-    //   it('Should trim firstName', function() {
-    //     return chai
-    //       .request(app)
-    //       .post('/users')
-    //       .send({
-    //         username,
-    //         password,
-    //         firstName: ` ${firstName} `
-    //       })
-    //       .then(res => {
-    //         expect(res).to.have.status(201);
-    //         expect(res.body).to.be.an('object');
-    //         expect(res.body).to.have.keys(
-    //           'username',
-    //           'firstName',
-    //           'id'
-    //         );
-    //         expect(res.body.username).to.equal(username);
-    //         expect(res.body.firstName).to.equal(firstName);
-    //         return User.findOne({
-    //           username
-    //         });
-    //       })
-    //       .then(user => {
-    //         expect(user).to.not.be.null;
-    //         expect(user.firstName).to.equal(firstName);
-    //       });
-    //   });
-    // });
 
     describe('PUT', function(){
       it('should change the user password', function(){
@@ -470,115 +368,3 @@ describe('/users', function() {
   });
 });
 });
-
-
-
-
-
-
-
-
-
-    // describe('GET', function() {
-    //   it('Should return an empty array initially', function() {
-    //     return chai.request(app).get('/users').then(res => {
-    //       expect(res).to.have.status(200);
-    //       expect(res.body).to.be.an('array');
-    //       expect(res.body).to.have.length(0);
-    //     });
-    //   });
-    //   it('Should return an array of users', function() {
-    //     return User.create(
-    //       {
-    //         username,
-    //         password,
-    //         firstName
-        //       },
-    //       {
-    //         username: usernameB,
-    //         password: passwordB,
-    //         firstName: firstNameB
-    //       }
-    //     )
-    //       .then(() => chai.request(app).get('/users'))
-    //       .then(res => {
-    //         expect(res).to.have.status(200);
-    //         expect(res.body).to.be.an('array');
-    //         expect(res.body).to.have.length(2);
-    //         expect(res.body[0]).to.deep.equal({
-    //           username,
-    //           firstName,
-    //           id: res.body[0].id
-    //         });
-            
-    //         expect(res.body[1]).to.deep.equal({
-    //           username: usernameB,
-    //           firstName: firstNameB,
-    //           id: res.body[1].id
-    //         });
-    //       });
-    //   });
-    //   it('Should get a specific user', function() {
-    //     let authToken;
-    //     return chai
-    //       .request(app)
-    //       .post('/users')
-    //       .send({
-    //         username,
-    //         password,
-    //         firstName
-    //         
-    //       })
-    //       .then(res => {
-    //         return chai
-    //         .request(app)
-    //         .post('/auth/login')
-    //         .send({
-    //           username: username,
-    //           password: password
-    //         })
-    //         .then(res => {
-    //           authToken = `Bearer ${res.body.jwtToken}`;
-    //           return chai
-    //           .request(app)
-    //           .get(`/users/${username}`)
-    //           .set('Authorization', `${authToken}`)
-    //           .then(res => {
-    //             expect(res).to.have.status(200);
-    //             expect(res.body.username).to.equal(username);
-    //             expect(res.body.firstName).to.equal(firstName);
-    //           })
-    //         })
-    //       })
-    //     });//it should get a specific user
-        // it('Should delete a specific user', function() {
-        //   return User.create(
-        //     {
-        //       username,
-        //       password,
-        //       firstName
-        //     },
-        //     {
-        //       username: usernameB,
-        //       password: passwordB,
-        //       firstName: firstNameB
-        //     })
-        //     .then(() => {
-        //       return chai
-        //     .request(app)
-        //     .get('/users')
-        //     .then(res => {
-        //       console.log(`/////////////////////////////`);
-        //       console.log(res.body);
-        //       console.log(`/////////////////////////////`);
-
-        //       return chai
-        //       .request(app)
-        //       .delete(`/${res.body[0].username}/${res.body[0].id}`)
-        //       .then(res => {
-        //         expect(res).to.have.status(204);
-        //       })
-        //     })
-        //     })
-          
-        // });

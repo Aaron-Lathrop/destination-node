@@ -3,18 +3,13 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 
 const {app, runServer, closeServer} = require('../server');
-const {Trip} = require('../trips');
-const {User} = require('../users')
-const { JWT_SECRET, TEST_DATABASE_URL } = require('../config');
+const { TEST_DATABASE_URL } = require('../config');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 
 const expect = chai.expect;
 
-// This let's us make HTTP requests
-// in our tests.
-// see: https://github.com/chaijs/chai-http
 chai.use(chaiHttp);
 
 function tearDownDb() {
@@ -158,7 +153,6 @@ describe('/trips', function(){
           .then(res => {
             expect(res).to.have.status(200);
             expect(res.body).to.be.an('array');
-            console.log('res.body: ',res.body);
             expect(res.body).to.have.length(1);
             expect(res.body[0].tripId).to.equal(_trip._id);
             expect(res.body[0].startDate).to.equal(_trip.startDate);
@@ -168,7 +162,31 @@ describe('/trips', function(){
           })
         });//it('should return an array of trips')
 
-      })
+        it('should return a trip by id', function() {
+          let _trip;
+          return chai
+          .request(app)
+          .post(`/trips`)
+          .send({user, trip})
+          .set('Authorization', `Bearer ${jwtToken}`)
+          .then((res) => {
+            _trip = res.body.trip;
+            return chai
+            .request(app)
+            .get(`/trips/${_trip._id}`)
+            .set('Authorization', `Bearer ${jwtToken}`)
+          })
+          .then((res) => {
+            expect(res).to.have.status(200);
+            expect(res.body).to.be.an('object');
+            expect(res.body._id).to.equal(_trip._id);
+            expect(res.body.startDate).to.equal(_trip.startDate);
+            expect(res.body.endDate).to.equal(_trip.endDate);
+            expect(res.body.destination).to.equal(_trip.destination);
+            expect(res.body.planCards).to.deep.equal(_trip.planCards);
+          })
+
+      });
 
       describe('DELETE', function(){
         
@@ -202,6 +220,103 @@ describe('/trips', function(){
 
         });//it('should delete an trip by id')
 
-      })
+      });
 
+      describe('PATCH', function(){
+
+        it('should not update if no content is sent', function() {
+          let _trip;
+          return chai
+          .request(app)
+          .post(`/trips`)
+          .send({user, trip})
+          .set('Authorization', `Bearer ${jwtToken}`)
+          .then((res) => {
+            _trip = res.body.trip;
+            return chai
+            .request(app)
+            .patch(`/trips/deleteplan/${_trip._id}`)
+            .send({plans: null, date: _trip.planCards[0].date, hasContentToDelete: true})
+            .set('Authorization', `Bearer ${jwtToken}`)
+          })
+          .then((res) => {
+            expect(res).to.have.status(422);
+          })
+        });
+
+        it('should not update if property hasContentToDelete is not true', function() {
+          let _trip;
+          return chai
+          .request(app)
+          .post(`/trips`)
+          .send({user, trip})
+          .set('Authorization', `Bearer ${jwtToken}`)
+          .then((res) => {
+            _trip = res.body.trip;
+            return chai
+            .request(app)
+            .patch(`/trips/deleteplan/${_trip._id}`)
+            .send({plans: _trip.planCards[0].plans, date: _trip.planCards[0].date, hasContentToDelete: false})
+            .set('Authorization', `Bearer ${jwtToken}`)
+          })
+          .then((res) => {
+            expect(res).to.have.status(204);
+          })
+        });
+
+        it('should not update if there is no date property', function() {
+          let _trip;
+          return chai
+          .request(app)
+          .post(`/trips`)
+          .send({user, trip})
+          .set('Authorization', `Bearer ${jwtToken}`)
+          .then((res) => {
+            _trip = res.body.trip;
+            return chai
+            .request(app)
+            .patch(`/trips/deleteplan/${_trip._id}`)
+            .send({plans: _trip.planCards[0].plans, hasContentToDelete: true})
+            .set('Authorization', `Bearer ${jwtToken}`)
+          })
+          .then((res) => {
+            expect(res).to.have.status(422);
+          })
+        });
+        
+        it('should delete plans by updating the plans array in a given trip', function(){
+          let _trip;
+          return chai
+          .request(app)
+          .post(`/trips`)
+          .send({user, trip})
+          .set('Authorization', `Bearer ${jwtToken}`)
+          .then((res) => {
+            _trip = res.body.trip;
+            return chai
+            .request(app)
+            .patch(`/trips/deleteplan/${_trip._id}`)
+            .send({plans: _trip.planCards[0].plans, date: _trip.planCards[0].date, hasContentToDelete: true})
+            .set('Authorization', `Bearer ${jwtToken}`)
+          })
+          .then((res) => {
+            expect(res).to.have.status(200);
+            expect(res.body).to.be.an('object');
+            expect(res.body).to.have.keys("message", "originalRequest")
+            expect(res.body.message).to.equal("Trip was updated successfully.");
+            expect(res.body.originalRequest).to.deep.equal({plans: _trip.planCards[0].plans, date: _trip.planCards[0].date, hasContentToDelete: true})
+          })
+          .then((res) => {
+            return chai
+            .request(app)
+            .get(`/trips/${_trip._id}`)
+            .set('Authorization', `Bearer ${jwtToken}`)
+          })
+          .then((res) => {
+            expect(res.body.planCards[0].plans).not.to.deep.equal(_trip.planCards[0].plans)
+          })
+        });
+      });
+
+});
 });

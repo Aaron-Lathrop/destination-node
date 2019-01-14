@@ -110,8 +110,7 @@ router.put('/updateplan/:tripId', jwtAuth, (req,res) => {
 });
 
 
-//deletes requested plans from a specific planCard by filtering out the content from the original
-//plans and updating the planCard
+//deletes requested plans from a specific planCard by filtering out the content from the original plans and updating the planCard
 router.patch('/deleteplan/:tripId', jwtAuth, (req,res) => {
   if(!Array.isArray(req.body.plans) || !req.body.date) {
        res.sendStatus(422).end();
@@ -157,45 +156,11 @@ router.patch('/deleteplan/:tripId', jwtAuth, (req,res) => {
 
 });
 
-//adds an additional plan to the end of the plan list for a given trip based on tripId and planCard date
-// router.post('/addplan/:tripId', jwtAuth, (req,res) => {
-//   const newPlan = req.body.plans[req.body.plans.length - 1];
- 
-//   Trip.findById(req.params.tripId)
-//   .then(trip => {
-
-//       trip = Object.assign({}, trip, {
-//         planCards: trip.planCards.map(card => card.date === req.body.date ? [...trip.planCards] : card)
-//       })
-
-//     return trip;
-//   })
-//   .then((update) => {
-//     Trip.findOneAndUpdate({_id: req.params.tripId}, {
-//       planCards: update.planCards
-//     }, {new: true})
-//     .then((trip)=> {
-//       return res.status(201).json({message: "Trip was updated successfully.", trip})
-//     })
-//     .catch(err => {
-//       console.error(err);
-//       res.status(500).json({message: "Internal server error! Oh my!"});
-//       });
-//     })
-//   .catch(err => {
-//     console.error(err);
-//     res.status(500).json({message: "Internal server error! Oh my!"});
-//   });
-
-// });
-
-
 //create a new trip
 router.post('/', jwtAuth, (req,res) => {
 
   const newTrip = {
     user: req.user.id,
-    // username: req.user.username,
     startDate: req.body.trip.startDate,
     endDate: req.body.trip.endDate,
     dateList: req.body.trip.dateList,
