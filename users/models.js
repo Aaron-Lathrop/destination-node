@@ -7,7 +7,6 @@ mongoose.Promise = global.Promise;
 const UserSchema = mongoose.Schema ({
     username: {type: String, required: true, unique: true},
     password: {type: String, required: true},
-    // firstName: {type: String, default: ''},
     created: {type: Date, default: Date.now},
 }
 
@@ -16,7 +15,6 @@ const UserSchema = mongoose.Schema ({
 UserSchema.methods.serialize = function() {
     return {
         username: this.username || '',
-        // firstName: this.firstName || '',
         id: this._id || ''
     };
 };
@@ -30,6 +28,5 @@ UserSchema.statics.hashPassword = function(password) {
 };
 
 const User = mongoose.model('User', UserSchema);
-
 
 module.exports = {User};

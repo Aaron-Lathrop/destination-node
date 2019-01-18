@@ -106,7 +106,6 @@ router.post('/signup', jsonParser, (req, res) => {
   return User.find({username})
     .countDocuments()
     .then(count => {
-      console.log(count);
       if (count > 0) {
         // There is an existing user with the same username
         return Promise.reject({
