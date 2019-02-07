@@ -14,6 +14,7 @@ const { PORT, DATABASE_URL} = require('./config');
 const express = require('express');
 const app = express();
 const passport = require('passport');
+const targetUrl = 'https://destino-planning.herokuapp.com/';
 
 app.use(express.json());
 app.use(morgan('common'));
@@ -38,8 +39,8 @@ app.use('/auth', authRouter);
 
 const jwtAuth = passport.authenticate('jwt', {session: false});
 
-app.use('*', function (req, res) {
-    res.status(404).json({ message: 'Oops! Looks like this is not the page you were looking for. This one is Not Found' });
+app.get('*', function (req, res) {
+    res.redirect(targetUrl);
 });
 
 let server;
