@@ -1,5 +1,7 @@
 # Destino - Simple Planning
 
+[![Build Status](https://travis-ci.org/Aaron-Lathrop/destination-node.svg?branch=master)](https://travis-ci.org/Aaron-Lathrop/destination-node)
+
 A fullstack JavaScript & React application that helps travelers plan trips. Users create trips, add & edit plans, and can keep themselves organized with day to day planning.
 
 ## Demo
