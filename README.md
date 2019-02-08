@@ -1,105 +1,94 @@
 # Destino - Simple Planning
 
-The Destino app let's you plan trips with a minimal user interface. Users can create trips and then add plans for each day of the trip. Trips and plans can be edited or deleted as desired.
+A fullstack JavaScript & React application that helps travelers plan trips. Users create trips, add & edit plans, and can keep themselves organized with day to day planning.
 
-### Working Prototype
+## Demo
 
-View working prototype here: [Destino - Simple Planning](https://destino-simple-planning.herokuapp.com/)
+- [Live Demo](https://destino-simple-planning.herokuapp.com/)
 
-View GitHub repo for client-side app here: [Destino GitHub - Client side](https://github.com/Aaron-Lathrop/destination-client)
+## Client
 
-This app was created using create-react-app.
+Client and API were deployed separately and stored in separate GitHub repos.* 
+- [Destino Client Repo](https://github.com/Aaron-Lathrop/destination-client)
 
-This is the server repository for the Destino - Simple Planning client.
+## Requirements
 
-## Site Map: MVP
+* Do something interesting or useful
+* Be a fullstack app using HTML, CSS, React, Node, Express, and Mongoose
+* Client and API should be deployed separately and stored in separate GitHub repos. 
+* Client- and server-side code should be tested use TravisCI for continuous integration and deployment.
+* App should be responsive, and should work just as well on mobile devices as it does on desktop devices.
+* Code should be high quality, error free, commented as necessary, and clean.
+* Styling on the client should be polished.
+* Use vanilla CSS for styling capstones. Frameworks like Bootstrap are not permitted. 
+* Have a comprehensive README file.
+* Have a landing page that explains what the app does and how to get started, and the pages required to deliver functionality.
+* Deploy a live, publicly-accessible version of the app.
+* A demo user account and indicate on the landing page how to use it.
 
-## UX & User Stories: MVP
+## Using the API
 
-**Landing Page**
+### Authentication / Login
+##### POST: /auth/login
 
-As a user, I want to understand what the app is so that I can decide if I want to sign up
+* Bearer Authentication with JSON Web Token
+* Must provide valid Username and Password in request header
+* If authentication succeeds, a valid 7d expiry JWT will be provided in response body
 
-![Landing page design](/assets/Landing_page_1.png)
+### Register and Login New User
+##### POST: /users 
 
-**Sign-up Form**
+* Must provide Username and Password in request body
+* If successful, a valid 7d expiry JWT will be provided in response body
 
-As a user, I want to sign up so I can save my trips and plans
+### Get Trips
+##### GET: /trips 
 
-![Sign-up form design](/assets/Sign_up_form.png)
+* This endpoint returns trips from the Destino database, Trips collection
+* Must provide valid JWT via Bearer Authentication
+* If authentication succeeds, all trips created by the user will be returned
 
+### Get Trip
+##### GET: /trips/:tripId
 
-**Login Form**
+* This endpoint returns a trip by id from the Destino database, Trips collection
+* Must provide valid JWT via Bearer Authentication
+* If authentication succeeds, the trip with the corresponding id will be returned
 
-As a user, I want to log in so I can access my information
+### Add Trip
+##### POST: /trips 
 
-![Login form design](/assets/Login_form.png)
+* This endpoint adds a trip to the Destino database/Trips collection
+* Must provide trip object including: destination, start date, end date, and starter plancards (automatically generated on the client-side)
+* Must provide valid JWT via Bearer Authentication
 
-**Trips Page**
+### Update Trip
+##### PUT: /trips/:tripId
 
-As a user, I want to see which trips I've created
+* This endpoint updates a trip in the Destino database/Trips collection
+* Must provide a trip object and trip id as a parameter
+* Must provide valid JWT via Bearer Authentication
 
-![Trips page design](/assets/Trips_page.png)
+### Delete Trip
+##### DELETE: /trips/delete/:tripId
 
-**Create a new trip Form**
+* This endpoint deletes a trip in the Destino database/Trips collection
+* Must provide a trip id as a parameter
+* Must provide valid JWT via Bearer Authentication
 
-As a user, I want to create new trips to organize my plans
+### Update Plan
+##### PUT: /trips/updateplan/:tripId
 
-![Create a new trip form design](/assets/Create_a_new_trip_form.png)
+* This endpoint updates a plan card with new plans array in the Destino database/Trips collection
+* Must provide a plan card object and trip id as a parameter
+* Must provide valid JWT via Bearer Authentication
 
-**Update trip form**
+### Delete Plan
+##### PATCH: /trips/deleteplan/:tripId
 
-As a user, I want to be able to update trips I've created
-
-![Update trip form design](/assets/Update_trip_form.png)
-
-**Trip Plans Page**
-
-As a user, I want to see my plans for a trip organized by date, add new plans, edit plans, and delete plans
-
-![Trip plans page design](/assets/Trip_plans_page.png)
-
-**Edit plans form**
-
-As a user, I want to add new plans, edit plans, and delete plans
-
-![Edit plans form design](/assets/Edit_plans_form.png)
-
-**Delete Trip Button**
-
-As a user, I want to be able to delete trips so I can stay organized and handle trips that have been canceled
-
-![Edit plans form design](/assets/Delete_trip.png)
-
-**Log Out Page**
-
-As a user, I want to log out so I can keep my account and information secure
-
-## Technical
-
-Destino - Simple Planning was bulit with:
-
-#### Front End
-
-* HTML5
-* CSS3
-* JavaScript 
-* React.js
-* Redux
-* Enzyme for testing
-
-#### Back End 
-
-* Node.js 
-* Express.js
-* MongoDB
-* Mongoose
-* mLab database
-* Mocha and Chai for testing
-
-
-### Responsive
-This app is built to be responsive to smaller screen sizes using css flexbox and grid, css and media screen width breakpoint of 600px for smaller screen sizes
+* This endpoint replaces the plan card in the Destino database/Trips collection with specified plans filtered out
+* Must provide a plan card object and trip id as a parameter
+* Must provide valid JWT via Bearer Authentication
 
 ## Development Road Map
 Features for future iterations include:
